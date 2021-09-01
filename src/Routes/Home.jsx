@@ -1,18 +1,24 @@
 import React from "react";
 import { Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import { NavLink} from "react-router-dom";
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
-function Home({posts}) {
+
+function Home({postIds}) {
+    const posts = useSelector(state => state, shallowEqual);
+
+    console.log(postIds)
   return (
     <Row>
     
-    {posts.map(post => (
+    {postIds.map(id => (
         
-        <Col sm="3" key={post.id}>
+        <Col sm="3" key={id}>
           <Card body >
-            <CardTitle tag="h5">{post.title}</CardTitle>
-            <CardText>{post.description}</CardText>
-            <NavLink to={`/${post.id}`}> <Button> See full post</Button></NavLink>
+          
+            <CardTitle tag="h5">{posts[id].title}</CardTitle>
+            <CardText>{posts[id].description}</CardText>
+            <NavLink to={`/${id}`}> <Button> See full post</Button></NavLink>
           </Card>
         </Col>))}
     {/* <Col sm="3">

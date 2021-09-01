@@ -3,18 +3,20 @@ import { Card, CardBody,Button, Form, FormGroup, Label, Input, Container } from 
 import { Redirect} from "react-router";
 import {useHistory} from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
-function NewBlog({posts, addPost, id}) {
-  
+function NewBlog({posts, addPost, PostId}) {
+    const dispatch = useDispatch();
     const history = useHistory();
+    let postEdit = useSelector(state => state[PostId], shallowEqual)
     let INITIAL_STATE = {
-        id: "",
+        id: uuidv4(),
         title: "",
         description: "",
-        body: ""}
-    if (id) {
-        INITIAL_STATE =  posts.find(post => post.id === id);}
-    
+        body: "",
+        comments: [{id:null, text:null}]}
+    if (PostId) {
+        INITIAL_STATE =  {...postEdit, id: PostId}}
     const [formData, setFormData] = useState(INITIAL_STATE);
     
 
@@ -25,19 +27,23 @@ function NewBlog({posts, addPost, id}) {
             [name]: value
         }))};
      async function handleSubmit(event){
-        if(id){
-            event.preventDefault();
-            await addPost(formData);
-            history.push("/");
-        } else {
+        // if(id){
+        //     event.preventDefault();
+        //     await addPost(formData);
+        //     history.push("/");
+        // } else {
 
         event.preventDefault();
-        addPost({...formData, id: uuidv4()});
+        // let id2 = uuidv4();
+      
+        console.log(formData, "!!!" );   
+        // addPost({...formData});
+        dispatch({type: "ADD_BLOG", payload: formData});
         history.push("/");
-        return <Redirect to="/" push />     }
+        return <Redirect to="/" push />   }
         
       
-    }
+    
 
   return (
 <Container className="themed-container" fluid="lg">

@@ -4,12 +4,14 @@ import Nav from "./Nav";
 import Home from "./Home";
 import NewPost from "./NewPost";
 import PostView from "./PostView";
-
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
 function Routes() {
-
+    const dispatch = useDispatch();
+    const posts2 = useSelector(state => state, shallowEqual);
+    const postIds = Object.keys(posts2);
     const [posts, setPosts] = useState([]);
-
+    console.log(posts2)
     function addPost (post) {
         setPosts([...posts, post]);
     }
@@ -26,7 +28,7 @@ function Routes() {
     <Nav />
     <Switch>
       <Route exact path="/" >
-          <Home posts={posts} />
+          <Home postIds={postIds} />
       </Route>
 
       <Route exact path="/new"  >
