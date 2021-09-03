@@ -4,17 +4,20 @@ import { Redirect} from "react-router";
 import {useHistory} from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import {makePost} from "../actionCreators"
+
 
 function NewBlog({posts, addPost, PostId}) {
     const dispatch = useDispatch();
     const history = useHistory();
     let postEdit = useSelector(state => state[PostId], shallowEqual)
     let INITIAL_STATE = {
-        id: uuidv4(),
+        // id: uuidv4(),
         title: "",
         description: "",
-        body: "",
-        comments: [{id:null, text:null}]}
+        body: ""
+        // comments: [{id:null, text:null}]}
+        }
     if (PostId) {
         INITIAL_STATE =  {...postEdit, id: PostId}}
     const [formData, setFormData] = useState(INITIAL_STATE);
@@ -34,13 +37,14 @@ function NewBlog({posts, addPost, PostId}) {
         // } else {
 
         event.preventDefault();
-        // let id2 = uuidv4();
+ 
       
         console.log(formData, "!!!" );   
         // addPost({...formData});
-        dispatch({type: "ADD_BLOG", payload: formData});
+         dispatch(makePost(formData));
         history.push("/");
-        return <Redirect to="/" push />   }
+        // return <Redirect to="/" push />   }
+     }
         
       
     

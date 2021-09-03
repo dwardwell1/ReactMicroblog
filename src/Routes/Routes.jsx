@@ -11,7 +11,7 @@ function Routes() {
     const posts2 = useSelector(state => state, shallowEqual);
     const postIds = Object.keys(posts2);
     const [posts, setPosts] = useState([]);
-    console.log(posts2)
+    // console.log(posts2)
     function addPost (post) {
         setPosts([...posts, post]);
     }

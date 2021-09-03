@@ -9,9 +9,20 @@ function rootReducer(state = INITIAL_STATE, action) {
       //   case 'ADD_COMMENT':
       //       return { ...state, [action.payload.id]: {title:action.payload.title,description:action.payload.description, body:action.payload.body, comments:action.payload.comments } };
       case 'FETCH_TITLES':
-        return { ...state, titles: [action.payload] };
-      case 'ADD_POST':
-          return { ...state, posts: [...state.posts, action.payload], titles: [...state.titles, [action.payload.id,action.payload.title, action.payload.description]] };
+        // console.log(action, "!!")
+        return { ...state, titles: action.payload };
+      case 'FETCH_POST':
+        // console.log(action, "!!")
+        return { ...state, posts: action.payload };
+      case 'NEW_POST':
+        console.log(action, "!!")
+          return { ...state,  titles: [...state.titles, [action.payload.id,action.payload.title, action.payload.description]] };
+      case 'DELETE_POST':
+        console.log(action, "!!")
+          return { ...state,  titles: [...state.titles.filter(title => title[0] !== action.payload.id)] };
+      case 'FETCH_COMMENTS':
+        console.log(action, "!!")
+          return { ...state,  posts: {...state.posts,comments: action.payload} };;
 
           case 'ERROR':
             return { ...state, error: true };
